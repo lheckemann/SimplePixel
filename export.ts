@@ -108,13 +108,7 @@ function ExportRect(startX, sizeX, startY, sizeY, number = -1, upscaleFactor = 1
         }
     }
 
-    let mime = "";
-    if (exportFormatSelect.value == "0") mime = "image/png";
-    if (exportFormatSelect.value == "1") mime = "image/jpeg";
-    if (exportFormatSelect.value == "2") mime = "image/webp";
-    if (exportFormatSelect.value == "3") mime = "image/gif";
-    
-    let url = canvas.toDataURL(mime);
+    let url = canvas.toDataURL(exportFormatSelect.value);
 
     var a = document.createElement('a');
 
