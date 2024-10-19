@@ -159,7 +159,7 @@ let mouseStartPosX: number; // In pixels
 let mouseStartPosY: number;
 
 let currentColor: Color;
-let currentAltColor = Color.FromRGB(0, 0, 0, 0);
+let currentAltColor = Color.FromRGB(1, 1, 1, 1);
 let currentTool = Tool.free;
 
 let clickAction = ClickAction.none;
@@ -200,13 +200,15 @@ canvas.addEventListener("contextmenu", event => event.preventDefault());
 
 // Setup
 
+ctx.fillStyle = "#ffffff";
+ctx.fill();
 ctx.imageSmoothingEnabled = false;
 
 InitHistory();
 UpdateToolbarIcons();
 InitUndo();
 SetTool(Tool.free);
-CreateImage(32, 32);
+CreateImage(176, 20);
 InitTutorial();
 
 OnSearchBlur();
@@ -292,7 +294,7 @@ function CreateImage(sizeX: number, sizeY: number, keepOldData = false, recordUn
     imageSizeX = sizeX;
     imageSizeY = sizeY;
     imageData = new Array(imageSizeX * imageSizeY);
-    imageData.fill(Color.FromRGB(0, 0, 0, 0));
+    imageData.fill(Color.FromRGB(1, 1, 1, 1));
 
     if (keepOldData)
     {

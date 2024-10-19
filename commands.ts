@@ -109,6 +109,33 @@ class Command
         new Command("export", control, "s", CommandType.function, null, "Export image as a file", (_) => {
             OpenExportPanel();
         }),
+        new Command("display", control, "d", CommandType.function, null, "Display to flipdot panel", (_) => {
+            let w = imageSizeX;
+            let h = imageSizeY;
+            let canvas = document.createElement("canvas");
+            canvas.width = w;
+            canvas.height = h;
+            let ctx = canvas.getContext("2d")!;
+
+            const arr = new Uint8ClampedArray(w*h*4);
+            for (let i = 0; i < imageData.length; i++) {
+                arr[i*4] = imageData[i].r * 255;
+                arr[i*4+1] = imageData[i].g * 255;
+                arr[i*4+2] = imageData[i].b * 255;
+                arr[i*4+3] = imageData[i].a * 255;
+            }
+            ctx.putImageData(new ImageData(arr, w), 0, 0);
+            canvas.toBlob((blob) => {
+              if (!blob)
+                  return;
+              const form = new FormData();
+              form.set("file", blob, "image.png");
+              fetch("https://api.muc.ccc.de/flipdot-zeile", {
+                  method: "PUT",
+                  body: form,
+              });
+            }, "image/png");
+        }),
         new Command("colorpicker", 0, "x", CommandType.function, null, "Sets the current color to a color form the image", (_) => {
             SetClickAction(ClickAction.picker);
         }),
